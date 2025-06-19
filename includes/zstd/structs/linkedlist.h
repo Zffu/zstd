@@ -32,6 +32,26 @@
     }
 
 /**
+ * Creates a function to append an element into the specific type of linked list.
+ */
+#define LinkedListAppendFunction(funcName, list, ...) \
+    void funcName(list##* ptr, list##_tree* elem) { \
+        if(ptr->tree == NULL) { \
+            ptr->tree = elem; \
+            ptr->curr = ptr->tree; \
+            return; \
+        } \
+        \
+        ptr->curr->next = elem; \
+        ptr->curr->next->next = NULL; \
+        \
+        __VA_ARGS__ \
+        \
+        ptr->curr = ptr->curr->next; \
+        ++ptr->size; \\
+    }
+
+/**
  * Creates a function to create the specified dual linked list type
  */
 #define DualLinkedListCreateFunction(funcName, list, ...) LinkedListCreateFunction(funcName, list, 
@@ -44,13 +64,22 @@
 /**
  * Creates a function to initialize a pointer of the specified dual linked list type
  */
-#define DualLinkedListInitFunction(funcName, list, ...) DualLinkedListInitFunction(funcName, list, 
+#define DualLinkedListInitFunction(funcName, list, ...) LinkedListInitFunction(funcName, list, 
     ptr->prev = NULL; \
     \
     __VA_ARGS__ \
     \
 )
 
+/**
+ * Creates a function to append an element into the specific type of dual linked list.
+ */
+#define DualLinkedListAppendFunction(funcName, list, ...) LinkedListAppendFunction(funcName, list, 
+    ptr->curr->next->prev = ptr->curr; \
+    \
+    __VA_ARGS__ \
+    \
+)
 
 /**
  * Creates a linked list structure (an ordered set of data elements, each containing a link to its successor).
