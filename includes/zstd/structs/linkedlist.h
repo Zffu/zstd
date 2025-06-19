@@ -48,38 +48,51 @@
         __VA_ARGS__ \
         \
         ptr->curr = ptr->curr->next; \
-        ++ptr->size; \\
+        ++ptr->size; \
     }
 
 /**
  * Creates a function to create the specified dual linked list type
  */
-#define DualLinkedListCreateFunction(funcName, list, ...) LinkedListCreateFunction(funcName, list, 
-    l->prev = NULL; \
-    \
-    __VA_ARGS__ \
-    \
-)
+#define DualLinkedListCreateFunction(funcName, list, ...) \
+    list##* funcName() { \
+        list##* l = malloc(sizeof(list)); \
+        l->tree = NULL; \
+        l->curr = NULL; \
+        __VA_ARGS__\
+    }
+        
 
 /**
  * Creates a function to initialize a pointer of the specified dual linked list type
  */
-#define DualLinkedListInitFunction(funcName, list, ...) LinkedListInitFunction(funcName, list, 
-    ptr->prev = NULL; \
-    \
-    __VA_ARGS__ \
-    \
-)
+#define DualLinkedListInitFunction(funcName, list, ...) \
+    void funcName(list##* ptr) { \
+        ptr->tree = NULL; \
+        ptr->curr = NULL; \
+        \
+        __VA_ARGS__ \
+        \
+    }
 
 /**
  * Creates a function to append an element into the specific type of dual linked list.
  */
-#define DualLinkedListAppendFunction(funcName, list, ...) LinkedListAppendFunction(funcName, list, 
-    ptr->curr->next->prev = ptr->curr; \
-    \
-    __VA_ARGS__ \
-    \
-)
+#define DualLinkedListAppendFunction(funcName, list, ...) \
+    void funcName(list##* ptr, list##_tree* elem) { \
+        if(ptr->tree == NULL) { \
+            ptr->tree = elem; \
+            ptr->curr = ptr->tree; \
+            return; \
+        } \
+        \
+        ptr->curr->next = elem; \
+        ptr->curr->next->next = NULL; \
+        ptr->curr->next->prev = ptr->curr; \
+        ptr->curr = ptr->curr->next; \
+        ++ptr->size; \
+        __VA_ARGS__\
+    }
 
 /**
  * Creates a linked list structure (an ordered set of data elements, each containing a link to its successor).
@@ -95,6 +108,7 @@
     typedef struct typeName { \
         typeName##_tree* tree; \
         typeName##_tree* curr; \
+        int size; \
     } typeName; \
     ZSTDAppendStructHelpFunc(LinkedListCreateFunction(typeName##_create, typeName)) \
     ZSTDAppendStructHelpFunc(LinkedListInitFunction(typeName##_init, typeName)) \
@@ -115,6 +129,7 @@
     typedef struct typeName { \
         typeName##_tree* tree; \
         typeName##_tree* curr; \
+        int size; \
     } typeName; \
     ZSTDAppendStructHelpFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
     ZSTDAppendStructHelpFunc(DualLinkedListInitFunction(typeName##_init, typeName)) \
