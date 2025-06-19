@@ -10,14 +10,14 @@
  * @param ... the inline elements of the structure
  */
 #define LinkedList(typeName, ...) \
-    typedef struct typeName_tree { \
+    typedef struct typeName##_tree { \
         __VA_ARGS__ \
-        struct typeName_tree* next; \
-    } typeName_tree; \
+        struct typeName##_tree* next; \
+    } typeName##_tree; \
     \
     typedef struct typeName { \
-        typeName_tree* tree; \
-        typeName_tree* curr; \
+        typeName##_tree* tree; \
+        typeName##_tree* curr; \
     } typeName; 
 
 /**
@@ -26,16 +26,16 @@
  * @param ... the inline elements of the structure
  */
 #define DualLinkedList(typeName, ...) \
-    typedef struct typeName_tree { \
+    typedef struct typeName##_tree { \
         __VA_ARGS__ \
-        struct typeName_tree* prev; \
-        struct typeName_tree* next; \
-    } typeName_tree; \
+        struct typeName##_tree* prev; \
+        struct typeName##_tree* next; \
+    } typeName##_tree; \
     \
     typedef struct typeName { \
-        typeName_tree* tree; \
-        typeName_tree* next; \
-    }; typeName 
+        typeName##_tree* tree; \
+        typeName##_tree* next; \
+    } typeName \
 
         
 
