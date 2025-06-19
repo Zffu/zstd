@@ -13,4 +13,4 @@
     typedef struct typeName { \
         __VA_ARGS__ \
         struct typeName* next; \
-    }; \
+    } typeName; \
