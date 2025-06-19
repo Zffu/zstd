@@ -4,6 +4,11 @@
 
 #pragma once
 
+#include <zstd.h>
+
+/**
+ * Creates a function to create the specified linked list type
+ */
 #define LinkedListCreateFunction(funcName, list, ...); \
     list##* funcName() { \
         list##* l = malloc(sizeof(list)); \
@@ -12,8 +17,19 @@
         \
         __VA_ARGS__ \
         \
-    };
+    }
 
+/**
+ * Creates a function to initialize a pointer of the specified linked list type
+ */
+#define LinkedListInitFunction(funcName, list, ...); \
+    void funcName(list##* ptr) { \
+        l->tree = NULL; \
+        l->curr = NULL; \
+        \
+        __VA_ARGS__ \
+        \
+    }
 
 
 /**
@@ -31,7 +47,8 @@
         typeName##_tree* tree; \
         typeName##_tree* curr; \
     } typeName; \
-    LinkedListCreateFunction(typeName##_create, typeName);
+    ZSTDAppendStructHelpFunc(LinkedListCreateFunction(typeName##_create, typeName)) \
+    ZSTDAppendStructHelpFunc(LinkedListInitFunction(typeName##_init, typeName))
 
 /**
  * Creates a dual linked list structure with both a next and previous indicator (an ordered set of data elements, each containing a link to its successor and its predecessor).
@@ -50,5 +67,4 @@
         typeName##_tree* next; \
     } typeName \
 
-        
-
+    

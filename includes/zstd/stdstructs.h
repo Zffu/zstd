@@ -5,4 +5,10 @@
 
 #pragma once
 
+#ifdef ZSTD_DISABLE_STRUCTURE_FUNCHELPERS
+#define ZSTDAppendStructHelpFunc(inst)
+#else
+#define ZSTDAppendStructHelpFunc(inst) inst 
+#endif
+
 #include <zstd/structs/linkedlist.h>
