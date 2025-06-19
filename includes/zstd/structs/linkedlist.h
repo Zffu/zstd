@@ -4,6 +4,18 @@
 
 #pragma once
 
+#define LinkedListCreateFunction(funcName, list, ...); \
+    list##* funcName() { \
+        list##* l = malloc(sizeof(list)); \
+        l->tree = NULL; \
+        l->curr = NULL; \
+        \
+        __VA_ARGS__ \
+        \
+    };
+
+
+
 /**
  * Creates a linked list structure (an ordered set of data elements, each containing a link to its successor).
  * @param typeName the name of the structure / type
@@ -18,7 +30,8 @@
     typedef struct typeName { \
         typeName##_tree* tree; \
         typeName##_tree* curr; \
-    } typeName; 
+    } typeName; \
+    LinkedListCreateFunction(typeName##_create, typeName);
 
 /**
  * Creates a dual linked list structure with both a next and previous indicator (an ordered set of data elements, each containing a link to its successor and its predecessor).
