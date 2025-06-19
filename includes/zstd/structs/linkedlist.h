@@ -9,7 +9,7 @@
 /**
  * Creates a function to create the specified linked list type
  */
-#define LinkedListCreateFunction(funcName, list, ...); \
+#define LinkedListCreateFunction(funcName, list, ...) \
     list##* funcName() { \
         list##* l = malloc(sizeof(list)); \
         l->tree = NULL; \
@@ -22,14 +22,34 @@
 /**
  * Creates a function to initialize a pointer of the specified linked list type
  */
-#define LinkedListInitFunction(funcName, list, ...); \
+#define LinkedListInitFunction(funcName, list, ...) \
     void funcName(list##* ptr) { \
-        l->tree = NULL; \
-        l->curr = NULL; \
+        ptr->tree = NULL; \
+        ptr->curr = NULL; \
         \
         __VA_ARGS__ \
         \
     }
+
+/**
+ * Creates a function to create the specified dual linked list type
+ */
+#define DualLinkedListCreateFunction(funcName, list, ...) LinkedListCreateFunction(funcName, list, 
+    l->prev = NULL; \
+    \
+    __VA_ARGS__ \
+    \
+)
+
+/**
+ * Creates a function to initialize a pointer of the specified dual linked list type
+ */
+#define DualLinkedListInitFunction(funcName, list, ...) DualLinkedListInitFunction(funcName, list, 
+    ptr->prev = NULL; \
+    \
+    __VA_ARGS__ \
+    \
+)
 
 
 /**
@@ -66,5 +86,7 @@
         typeName##_tree* tree; \
         typeName##_tree* next; \
     } typeName \
+    ZSTDAppendStructHelpFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
+    ZSTDAppendStructHelpFunc(LinkedListInitFunction(typeName##_init, typeName))
 
     
