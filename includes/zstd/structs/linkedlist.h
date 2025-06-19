@@ -1,5 +1,5 @@
 /**
- * ZSTD Structure definitions
+ * ZSTD's LinkedList definitions
  */
 
 #pragma once
