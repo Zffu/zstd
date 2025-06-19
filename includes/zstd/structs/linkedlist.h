@@ -114,7 +114,7 @@
     \
     typedef struct typeName { \
         typeName##_tree* tree; \
-        typeName##_tree* next; \
+        typeName##_tree* curr; \
     } typeName; \
     ZSTDAppendStructHelpFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
     ZSTDAppendStructHelpFunc(DualLinkedListInitFunction(typeName##_init, typeName)) \
