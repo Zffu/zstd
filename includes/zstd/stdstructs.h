@@ -5,10 +5,16 @@
 
 #pragma once
 
-#ifdef ZSTD_DISABLE_STRUCTURE_FUNCHELPERS
-#define ZSTDAppendStructHelpFunc(inst)
-#else
-#define ZSTDAppendStructHelpFunc(inst) inst 
-#endif
+#if !defined(ZSTD_DISABLE_STRUCTHELPERSFUNC) || !defined(ZSTD_DISABLE_CREATEFUNCS)
+#define ZSTDAppendCreateHelperFunc(inst) inst
+#endif  
+
+#if !defined(ZSTD_DISABLE_STRUCTHELPERSFUNC) || !defined(ZSTD_DISABLE_APPENDFUNCS)
+#define ZSTDAppendAppendHelperFunc(inst) inst
+#endif  
+
+#if !defined(ZSTD_DISABLE_STRUCTHELPERSFUNC) || !defined(ZSTD_DISABLE_INITFUNCS)
+#define ZSTDAppendInitHelperFunc(inst) inst
+#endif  
 
 #include <zstd/structs/linkedlist.h>

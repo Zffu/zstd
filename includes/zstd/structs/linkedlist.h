@@ -110,9 +110,9 @@
         typeName##_tree* curr; \
         int size; \
     } typeName; \
-    ZSTDAppendStructHelpFunc(LinkedListCreateFunction(typeName##_create, typeName)) \
-    ZSTDAppendStructHelpFunc(LinkedListInitFunction(typeName##_init, typeName)) \
-    ZSTDAppendStructHelpFunc(LinkedListAppendFunction(typeName##_append, typeName)) 
+    ZSTDAppendCreateHelperFunc(LinkedListCreateFunction(typeName##_create, typeName)) \
+    ZSTDAppendInitHelperFunc(LinkedListInitFunction(typeName##_init, typeName)) \
+    ZSTDAppendAppendHelperFunc(LinkedListAppendFunction(typeName##_append, typeName)) 
 
 /**
  * Creates a dual linked list structure with both a next and previous indicator (an ordered set of data elements, each containing a link to its successor and its predecessor).
@@ -131,8 +131,8 @@
         typeName##_tree* curr; \
         int size; \
     } typeName; \
-    ZSTDAppendStructHelpFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
-    ZSTDAppendStructHelpFunc(DualLinkedListInitFunction(typeName##_init, typeName)) \
-    ZSTDAppendStructHelpFunc(DualLinkedListAppendFunction(typeName##_append, typeName))
+    ZSTDAppendCreateHelperFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
+    ZSTDAppendInitHelperFunc(DualLinkedListInitFunction(typeName##_init, typeName)) \
+    ZSTDAppendAppendHelperFunc(DualLinkedListAppendFunction(typeName##_append, typeName))
 
     
