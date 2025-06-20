@@ -17,4 +17,8 @@
 #define ZSTDAppendInitHelperFunc(inst) inst
 #endif  
 
+#if !defined(ZSTD_DISABLE_STRUCTHELPERSFUNC) || !defined(ZSTD_DISABLE_REMOVEFUNCS)
+#define ZSTDAppendRemoveHelperFunc(inst) inst
+#endif  
+
 #include <zstd/structs/linkedlist.h>

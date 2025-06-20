@@ -52,6 +52,24 @@
     }
 
 /**
+ * Creates a function to remove an element inside the specified linked list type.
+ */
+#define LinkedListRemoveFunction(funcName, list, ...) \
+    void funcName(list##* list, list##_tree* ptr) { \
+        list##_tree* p = list->tree; \
+        list##_tree* prev = NULL;
+        while(p != NULL) { \
+            if(p == ptr) { \
+                if(prev != NULL) prev->next = p->next; \
+                free(ptr); \
+                return; \
+            } \
+            prev = p; \
+            p = p->next; \
+        } \
+    } 
+
+/**
  * Creates a function to create the specified dual linked list type
  */
 #define DualLinkedListCreateFunction(funcName, list, ...) \
@@ -95,6 +113,20 @@
     }
 
 /**
+ * Creates a function to remove an element inside the specified dual linked list type.
+ */
+#define DualLinkedListRemoveFunction(funcName, list, ...) \
+    void funcName(list##* list, list##_tree* ptr) { \
+        if(ptr->prev != NULL) { \
+            ptr->prev->next = ptr->next; \
+        } \
+        if(ptr->next != NULL) { \
+            ptr->next->prev = ptr->prev; \
+        } \
+        free(ptr); \
+    } 
+
+/**
  * Creates a linked list structure (an ordered set of data elements, each containing a link to its successor).
  * @param typeName the name of the structure / type
  * @param ... the inline elements of the structure
@@ -112,7 +144,8 @@
     } typeName; \
     ZSTDAppendCreateHelperFunc(LinkedListCreateFunction(typeName##_create, typeName)) \
     ZSTDAppendInitHelperFunc(LinkedListInitFunction(typeName##_init, typeName)) \
-    ZSTDAppendAppendHelperFunc(LinkedListAppendFunction(typeName##_append, typeName)) 
+    ZSTDAppendAppendHelperFunc(LinkedListAppendFunction(typeName##_append, typeName)) \
+    ZSTDAppendRemoveHelperFunc(LinkedListRemoveFunction(typeName##_remove, typeName))
 
 /**
  * Creates a dual linked list structure with both a next and previous indicator (an ordered set of data elements, each containing a link to its successor and its predecessor).
@@ -133,6 +166,8 @@
     } typeName; \
     ZSTDAppendCreateHelperFunc(DualLinkedListCreateFunction(typeName##_create, typeName)) \
     ZSTDAppendInitHelperFunc(DualLinkedListInitFunction(typeName##_init, typeName)) \
-    ZSTDAppendAppendHelperFunc(DualLinkedListAppendFunction(typeName##_append, typeName))
+    ZSTDAppendAppendHelperFunc(DualLinkedListAppendFunction(typeName##_append, typeName)) \
+    ZSTDAppendRemoveHelperFunc(DualLinkedListRemoveFunction(typeName##_remove, typeName))
+
 
     
